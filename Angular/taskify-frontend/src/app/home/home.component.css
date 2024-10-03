@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.title {
+    font-size: 24px;
+    color: #333;
+}
+
+nav {
+    display: flex;
+}
+
+.access-button {
+    padding: 10px 30px;
+    background-color: #00003e;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.access-button:hover {
+    background-color: #00008a;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.content-container {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 70px auto;
+}
+
+.text-content {
+    margin-right: 300px;
+}
+
+h2 {
+    font-size: 36px;
+    color: #333;
+}
+
+.signup-button {
+    font-size: 20px;
+    padding: 15px 150px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px 0;
+}
+
+.signup-button:hover {
+    background-color: #218838;
+}
+
+.main-image {
+    width: 300px;
+    height: auto;
+}
+
+p {
+    font-size: 18px;
+    color: #555;
+    max-width: 500px;
+    margin: 10px auto;
+}
+
+.menu-button {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    background-color: transparent;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.line {
+    width: 25px;
+    height: 4px;
+    background-color: #00003e;
+    margin: 2px 0;
+}
