@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="profile.component.css">
+    <title>Taskify - Profile</title>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo-taskify.png" alt="Taskify Logo" class="logo">
+            <h1>Taskify</h1>
+        </div>
+        <h2 class="page-title">Profile</h2>
+        <nav>
+            <button class="nav-button" routerLink="/your-board" routerLinkActive="active">Access your boards</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="profile-container">
+            <div class="action-box">
+                <button class="profile-button">Profile</button>
+
+                <div class="action-buttons">
+                    <button class="change-password-button" routerLink="/modify-password" routerLinkActive="active">Change Password</button>
+                    <button class="delete-account-button">Delete Account</button>
+                    <button class="logout-button">Logout</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
