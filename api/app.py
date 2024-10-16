@@ -1,23 +1,35 @@
 from flask import Flask, request, jsonify
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
 tasks = []
-users = {
-    "test@example.com": "password123"
-}
+users = {}
 tokens = {}
 
 @app.route('/')
 def home():
     return "Welcome to the Task API!", 200
 
+@app.route('/api/auth/register', methods=['POST'])
+def register():
+    email = request.json.get('email')
+    password = request.json.get('password')
+    
+    if email in users:
+        return jsonify({"error": "Email already exists"}), 400
+    
+    hashed_password = generate_password_hash(password, method='sha256')
+    users[email] = hashed_password
+
+    return jsonify({"message": "User created successfully"}), 201
+
 @app.route('/api/authentication', methods=['POST'])
 def login():
     email = request.json.get('email')
     password = request.json.get('password')
     
-    if email in users and users[email] == password:
+    if email in users and check_password_hash(users[email], password):
         token = f"token_{email}"
         tokens[email] = token
         return jsonify({"token": token}), 200
@@ -96,7 +108,6 @@ def delete_task(id):
     global tasks
     tasks = [task for task in tasks if task["id"] != id]
     return jsonify({"message": "Task deleted"}), 200
-
 
 if __name__ == '__main__':
     app.run(debug=True)
