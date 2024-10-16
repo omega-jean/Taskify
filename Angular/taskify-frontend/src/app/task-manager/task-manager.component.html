@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="task-manager.component.css">
+    <title>Taskify</title>
+</head>
+
+<body>
+    <div class="task-manager">
+        <header>
+            <div class="logo">
+                <img src="assets/logo.png" alt="Taskify Logo" />
+                <span>Taskify</span>
+            </div>
+            <div class="header-buttons">
+                <button class="create-btn" routerLink="/your-board" routerLinkActive="active">Your boards</button>
+                <button class="calendar-btn">Calendar</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="add-list">
+                <div class="add-list-container">
+                    <button class="add-list-btn" (click)="addListFormVisible = !addListFormVisible">+ Add a list</button>
+                    <div class="add-list-form" *ngIf="addListFormVisible">
+                        <form [formGroup]="addListForm" (ngSubmit)="onSubmit()">
+                            <input formControlName="title" placeholder="Task Title" required>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lists" id="listsContainer" cdkDropList (cdkDropListDropped)="drop($event)">
+                <div *ngFor="let list of taskLists; let i = index" class="task-list" cdkDrag>
+                    <div class="task-list-header">
+                        <h3>{{ list.title }}</h3>
+                        <button class="options-btn" (click)="toggleListMenu(i)">...</button>
+                    </div>
+                    <div class="list-menu" *ngIf="openMenuIndex === i">
+                        <button (click)="modifyTitle(list)">Modify Title</button>
+                        <button (click)="duplicateList(list)">Duplicate</button>
+                        <button (click)="deleteList(i)">Delete</button>
+                    </div>
+                    <div *ngFor="let card of list.cards" class="card" cdkDrag>
+                        <button>{{ card }}</button>
+                    </div>
+                    <button class="add-card-btn" (click)="toggleCardForm(i)">+ Add a card</button>
+                    <div *ngIf="list.cardFormVisible" class="card-form">
+                        <input [(ngModel)]="list.newCard" placeholder="Card content">
+                        <button (click)="addCard(i)">Add Card</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="menu-button" (click)="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+
+        <div class="dropdown-menu" *ngIf="isMenuOpen">
+            <h3>Menu</h3>
+            <button routerLink="/profile" routerLinkActive="active">Profile</button>
+            <button>Logout</button>
+        </div>
+    </div>
+</body>
+</html>
