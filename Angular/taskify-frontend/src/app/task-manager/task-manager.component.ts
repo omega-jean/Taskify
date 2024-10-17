@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-task-manager',
@@ -25,6 +26,7 @@ export class TaskManagerComponent {
   addListFormVisible = false;
   addListForm: FormGroup;
   taskLists: { title: string; description: string; cards: string[]; newCard: string; cardFormVisible: boolean }[] = [];
+  draggingIndex: number | null = null;
 
   constructor(private formBuilder: FormBuilder) {
     this.addListForm = this.formBuilder.group({
@@ -87,7 +89,16 @@ export class TaskManagerComponent {
     }
   }
 
-  drop(event: CdkDragDrop<{ title: string; description: string; cards: string[]; newCard: string; cardFormVisible: boolean }[]>) {
+  drop(event: CdkDragDrop<{ title: string; cards: string[]; newCard: string; cardFormVisible: boolean }[]>) {
     moveItemInArray(this.taskLists, event.previousIndex, event.currentIndex);
+    this.draggingIndex = null;
+  }
+
+  dragStarted(index: number) {
+    this.draggingIndex = index;
+  }
+
+  dragEnded() {
+    this.draggingIndex = null;
   }
 }

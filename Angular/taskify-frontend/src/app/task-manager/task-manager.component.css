@@ -56,10 +56,9 @@ header {
     font-size: 18px;
     cursor: pointer;
     background-color: transparent;
-    border: 1px solid #ddd;
+    border: 5px;
     color: black;
     margin-right: 20px;
-    border-radius: 5px;
 }
 
 .add-list-form {
