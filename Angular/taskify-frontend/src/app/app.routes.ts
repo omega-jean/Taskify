@@ -16,5 +16,6 @@ export const routes: Routes = [
   { path: 'modify-password', component: ModifyPasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent},
   { path: 'task-manager/:name', component: TaskManagerComponent},
-  { path: 'your-board', component: YourBoardComponent}
+  { path: 'your-board', component: YourBoardComponent},
+  { path: 'home', component: HomeComponent },
 ];
