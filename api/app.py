@@ -1,45 +1,58 @@
 from flask import Flask, request, jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_cors import CORS
+import re
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 tasks = []
 users = {}
 tokens = {}
 
+EMAIL_REGEX = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+
 @app.route('/')
 def home():
     return "Welcome to the Task API!", 200
 
-@app.route('/api/auth/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     email = request.json.get('email')
-    password = request.json.get('password')
-    
+    password = str(request.json.get('password'))
+    confirm_password = str(request.json.get('confirmPassword'))
+
+    if not re.match(EMAIL_REGEX, email):
+        return jsonify({"error": "Invalid email format"}), 400
+
+    if password != confirm_password:
+        return jsonify({"error": "Passwords do not match"}), 400
+
     if email in users:
         return jsonify({"error": "Email already exists"}), 400
-    
-    hashed_password = generate_password_hash(password, method='sha256')
-    users[email] = hashed_password
+
+    users[email] = password
 
     return jsonify({"message": "User created successfully"}), 201
 
 @app.route('/api/authentication', methods=['POST'])
 def login():
     email = request.json.get('email')
-    password = request.json.get('password')
-    
-    if email in users and check_password_hash(users[email], password):
-        token = f"token_{email}"
-        tokens[email] = token
-        return jsonify({"token": token}), 200
-    return jsonify({"error": "Invalid credentials"}), 401
+    password = str(request.json.get('password'))
+
+    if email not in users:
+        return jsonify({"error": "Email not found"}), 404
+    elif users[email] != password:
+        return jsonify({"error": "Incorrect password"}), 401
+
+    token = f"token_{email}"
+    tokens[email] = token
+    return jsonify({"token": token}), 200
 
 @app.route('/api/authentication', methods=['DELETE'])
 def logout():
     token = request.headers.get('Authorization')
     email = next((email for email, t in tokens.items() if t == token), None)
-    
+
     if email:
         del tokens[email]
         return jsonify({"message": "Logged out"}), 200
@@ -59,10 +72,14 @@ def get_tasks():
 def add_task():
     if not is_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
-    
-    title = input("Enter the title of the task: ")
-    description = input("Enter the task description: ")
-    
+
+    data = request.json
+    title = data.get('title')
+    description = data.get('description')
+
+    if not title or not description:
+        return jsonify({"error": "Title and description are required"}), 400
+
     new_task = {
         "id": len(tasks) + 1,
         "title": title,
@@ -76,7 +93,7 @@ def add_task():
 def get_task(id):
     if not is_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
-    
+
     task = next((task for task in tasks if task["id"] == id), None)
     if task:
         return jsonify(task), 200
@@ -86,17 +103,18 @@ def get_task(id):
 def update_task(id):
     if not is_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
-    
+
     task = next((task for task in tasks if task["id"] == id), None)
     if task:
-        title = input("Enter the new title of the task: ")
-        description = input("Enter the new job description: ")
-        
+        data = request.json
+        title = data.get('title')
+        description = data.get('description')
+
         if title:
             task["title"] = title
         if description:
             task["description"] = description
-        
+
         return jsonify(task), 200
     return jsonify({"error": "Task not found"}), 404
 
@@ -104,10 +122,10 @@ def update_task(id):
 def delete_task(id):
     if not is_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
-    
+
     global tasks
     tasks = [task for task in tasks if task["id"] != id]
     return jsonify({"message": "Task deleted"}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
