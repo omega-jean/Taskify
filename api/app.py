@@ -1,15 +1,36 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String
+from werkzeug.security import generate_password_hash, check_password_hash
 import re
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-tasks = []
-users = {}
-tokens = {}
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:jeanroger2405@localhost/taskify'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = Column(String, unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password_hash = db.Column(db.String(250), nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(250), nullable=False)
+    status = db.Column(db.String(50), default="pending")
+
+with app.app_context():
+    db.create_all()
 
 EMAIL_REGEX = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+tokens = {}
 
 @app.route('/')
 def home():
@@ -27,21 +48,35 @@ def register():
     if password != confirm_password:
         return jsonify({"error": "Passwords do not match"}), 400
 
-    if email in users:
+    if User.query.filter_by(email=email).first():
         return jsonify({"error": "Email already exists"}), 400
 
-    users[email] = password
+    base_username = email.split('@')[0]
+    username = base_username
+    count = 1
 
-    return jsonify({"message": "User created successfully"}), 201
+    while User.query.filter_by(username=username).first() is not None:
+        username = f"{base_username}{count}"
+        count += 1
+
+    hashed_password = generate_password_hash(password)
+
+    new_user = User(username=username, email=email, password_hash=hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({"message": "User created successfully", "username": username}), 201
+
 
 @app.route('/api/authentication', methods=['POST'])
 def login():
     email = request.json.get('email')
     password = str(request.json.get('password'))
 
-    if email not in users:
+    user = User.query.filter_by(email=email).first()
+    if not user:
         return jsonify({"error": "Email not found"}), 404
-    elif users[email] != password:
+    if not check_password_hash(user.password_hash, password):
         return jsonify({"error": "Incorrect password"}), 401
 
     token = f"token_{email}"
@@ -66,7 +101,8 @@ def is_authenticated():
 def get_tasks():
     if not is_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
-    return jsonify(tasks), 200
+    tasks = Task.query.all()
+    return jsonify([{"id": task.id, "title": task.title, "description": task.description, "status": task.status} for task in tasks]), 200
 
 @app.route('/api/tasks', methods=['POST'])
 def add_task():
@@ -80,23 +116,19 @@ def add_task():
     if not title or not description:
         return jsonify({"error": "Title and description are required"}), 400
 
-    new_task = {
-        "id": len(tasks) + 1,
-        "title": title,
-        "description": description,
-        "status": "pending"
-    }
-    tasks.append(new_task)
-    return jsonify(new_task), 201
+    new_task = Task(title=title, description=description)
+    db.session.add(new_task)
+    db.session.commit()
+    return jsonify({"id": new_task.id, "title": new_task.title, "description": new_task.description, "status": new_task.status}), 201
 
 @app.route('/api/tasks/<int:id>', methods=['GET'])
 def get_task(id):
     if not is_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
-    task = next((task for task in tasks if task["id"] == id), None)
+    task = Task.query.get(id)
     if task:
-        return jsonify(task), 200
+        return jsonify({"id": task.id, "title": task.title, "description": task.description, "status": task.status}), 200
     return jsonify({"error": "Task not found"}), 404
 
 @app.route('/api/tasks/<int:id>', methods=['PUT'])
@@ -104,18 +136,19 @@ def update_task(id):
     if not is_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
-    task = next((task for task in tasks if task["id"] == id), None)
+    task = Task.query.get(id)
     if task:
         data = request.json
         title = data.get('title')
         description = data.get('description')
 
         if title:
-            task["title"] = title
+            task.title = title
         if description:
-            task["description"] = description
+            task.description = description
 
-        return jsonify(task), 200
+        db.session.commit()
+        return jsonify({"id": task.id, "title": task.title, "description": task.description, "status": task.status}), 200
     return jsonify({"error": "Task not found"}), 404
 
 @app.route('/api/tasks/<int:id>', methods=['DELETE'])
@@ -123,9 +156,12 @@ def delete_task(id):
     if not is_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
-    global tasks
-    tasks = [task for task in tasks if task["id"] != id]
-    return jsonify({"message": "Task deleted"}), 200
+    task = Task.query.get(id)
+    if task:
+        db.session.delete(task)
+        db.session.commit()
+        return jsonify({"message": "Task deleted"}), 200
+    return jsonify({"error": "Task not found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
