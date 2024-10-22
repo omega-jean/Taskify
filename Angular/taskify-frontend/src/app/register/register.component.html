@@ -21,21 +21,31 @@
     <main>
         <div class="register-container">
             <h2>Register</h2>
-            <form id="registerForm" onsubmit="return onSubmit()">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" required name="email">
+                    <input type="email" id="email" formControlName="email" required>
+                    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                        <small class="error">Invalid email</small>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" required name="password">
+                    <input type="password" id="password" formControlName="password" required>
+                    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                        <small class="error">Password must be at least 6 characters long</small>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password:</label>
-                    <input type="password" id="confirmPassword" required name="confirmPassword">
+                    <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
+                    <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+                        <small class="error">Passwords do not match</small>
+                    </div>
                 </div>
-                <button type="submit" class="register-button">Register</button>
+                <button type="submit" class="register-button" [disabled]="registerForm.invalid">Register</button>
             </form>
+            <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
             <p>Already have an account? <a routerLink="/login" routerLinkActive="active">Login here</a></p>
         </div>
     </main>

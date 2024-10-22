@@ -112,3 +112,9 @@ input {
   bottom: 20px;
   right: 20px;
 }
+
+
+.error {
+  color: red;
+  font-size: 0.8em;
+}
