@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 
@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = Column(String, unique=True, nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(250), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
@@ -26,11 +26,28 @@ class Task(db.Model):
     description = db.Column(db.String(250), nullable=False)
     status = db.Column(db.String(50), default="pending")
 
+class Board(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id'), nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    user = db.relationship('User', backref=db.backref('boards', lazy=True))
+
 with app.app_context():
     db.create_all()
 
 EMAIL_REGEX = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
 tokens = {}
+
+def get_authenticated_user_email():
+    token = request.headers.get('Authorization')
+    email = next((email for email, t in tokens.items() if t == token), None)
+    return email
+
+def is_authenticated():
+    token = request.headers.get('Authorization')
+    return token and token in tokens.values()
 
 @app.route('/')
 def home():
@@ -67,7 +84,6 @@ def register():
 
     return jsonify({"message": "User created successfully", "username": username}), 201
 
-
 @app.route('/api/authentication', methods=['POST'])
 def login():
     email = request.json.get('email')
@@ -92,10 +108,6 @@ def logout():
         del tokens[email]
         return jsonify({"message": "Logged out"}), 200
     return jsonify({"error": "Invalid token"}), 401
-
-def is_authenticated():
-    token = request.headers.get('Authorization')
-    return token and token in tokens.values()
 
 @app.route('/api/tasks', methods=['GET'])
 def get_tasks():
@@ -162,6 +174,73 @@ def delete_task(id):
         db.session.commit()
         return jsonify({"message": "Task deleted"}), 200
     return jsonify({"error": "Task not found"}), 404
+
+@app.route('/api/your-board', methods=['POST'])
+def add_board():
+    if not is_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user_email = get_authenticated_user_email()
+    user = User.query.filter_by(email=user_email).first()
+
+    data = request.json
+    board_name = data.get('name')
+
+    if not board_name:
+        return jsonify({"error": "Board name is required"}), 400
+
+    new_board = Board(name=board_name, user_id=user.user_id)
+    db.session.add(new_board)
+    db.session.commit()
+
+    return jsonify({"id": new_board.id, "name": new_board.name}), 201
+
+@app.route('/api/your-board', methods=['GET'])
+def get_boards():
+    if not is_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user_email = get_authenticated_user_email()
+    user = User.query.filter_by(email=user_email).first()
+
+    boards = Board.query.filter_by(user_id=user.user_id).all()
+    return jsonify([{"id": board.id, "name": board.name} for board in boards]), 200
+
+@app.route('/api/your-board/<int:id>', methods=['DELETE'])
+def delete_board(id):
+    if not is_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user_email = get_authenticated_user_email()
+    user = User.query.filter_by(email=user_email).first()
+
+    board = Board.query.filter_by(id=id, user_id=user.user_id).first()
+    if board:
+        db.session.delete(board)
+        db.session.commit()
+        return jsonify({"message": "Board deleted"}), 200
+    return jsonify({"error": "Board not found"}), 404
+
+@app.route('/api/your-board/<int:id>', methods=['PUT'])
+def update_board(id):
+    if not is_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user_email = get_authenticated_user_email()
+    user = User.query.filter_by(email=user_email).first()
+
+    board = Board.query.filter_by(id=id, user_id=user.user_id).first()
+    if board:
+        data = request.json
+        board_name = data.get('name')
+
+        if board_name:
+            board.name = board_name
+
+        db.session.commit()
+        return jsonify({"id": board.id, "name": board.name}), 200
+    return jsonify({"error": "Board not found"}), 404
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
