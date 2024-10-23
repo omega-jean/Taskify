@@ -43,8 +43,9 @@
                     <button (click)="duplicateList(list)">Duplicate</button>
                     <button (click)="deleteList(i)">Delete</button>
                 </div>
-                <div *ngFor="let card of list.cards" class="card">
-                    <button>{{ card }}</button>
+                <div *ngFor="let card of list.cards; let j = index" class="card">
+                    <button (click)="showCardDetails(card)">{{ card.title }}</button>
+                    <button (click)="deleteCard(i, j)">Delete</button> <!-- Corrected here to use j -->
                 </div>
                 <button class="add-card-btn" (click)="toggleCardForm(i)">+ Add a card</button>
                 <div *ngIf="list.cardFormVisible" class="card-form">
@@ -52,6 +53,21 @@
                     <button (click)="addCard(i)">Add Card</button>
                 </div>
             </div>
+        </div>
+
+        <div *ngIf="selectedCard" class="card-details">
+            <h3>Edit Card</h3>
+            <form (ngSubmit)="updateCard()">
+                <input [(ngModel)]="selectedCard.title" placeholder="Card Title" required>
+                <textarea [(ngModel)]="selectedCard.description" placeholder="Card Description"></textarea>
+                <select [(ngModel)]="selectedCard.status">
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <button type="submit">Update Card</button>
+            </form>
+            <button (click)="closeCardDetails()">Close</button>
         </div>
     </main>
 

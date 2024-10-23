@@ -56,9 +56,14 @@ header {
     font-size: 18px;
     cursor: pointer;
     background-color: transparent;
-    border: 5px;
+    border: 1px solid #000;
     color: black;
     margin-right: 20px;
+    transition: background-color 0.3s;
+}
+
+.add-list-btn:hover {
+    background-color: #f0f0f0;
 }
 
 .add-list-form {
@@ -164,6 +169,7 @@ header {
     border: none;
     cursor: pointer;
     border-radius: 3px;
+    transition: background-color 0.3s;
 }
 
 .add-card-btn:hover {
@@ -193,4 +199,11 @@ header {
 
 .options-btn:hover {
     color: #555;
+}
+
+.list-menu {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
