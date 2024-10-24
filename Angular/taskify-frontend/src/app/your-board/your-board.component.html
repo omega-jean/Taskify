@@ -20,15 +20,17 @@
     <main>
         <div class="your-boards-container">
             <h2>Your Boards</h2>
-            <button class="add-list-btn" (click)="showAddBoardForm = true">+ Create Board</button>
+            <button class="add-list-btn" (click)="toggleAddBoardForm()">+ Create Board</button>
             
             <div *ngIf="showAddBoardForm" id="addBoardForm">
                 <input type="text" [(ngModel)]="newBoardName" placeholder="Enter board name" />
-                <button (click)="addBoard()" routerLink="/task-manager">Create Board</button>
+                <button (click)="addBoard()">Create Board</button>
             </div>
 
-            <div *ngFor="let board of boards">
-                <p>{{ board.name }}</p>
+            <div class="board-list">
+                <div *ngFor="let board of boards" class="board-item" (click)="navigateToTaskManager(board.name)">
+                    <p>{{ board.name }}</p>
+                </div>
             </div>
         </div>
     </main>
