@@ -43,10 +43,24 @@
                     <button (click)="duplicateList(list)">Duplicate</button>
                     <button (click)="deleteList(i)">Delete</button>
                 </div>
+
                 <div *ngFor="let card of list.cards; let j = index" class="card">
-                    <button (click)="showCardDetails(card)">{{ card.title }}</button>
-                    <button (click)="deleteCard(i, j)">Delete</button> <!-- Corrected here to use j -->
+                    <div class="card-content">
+                        <button (click)="showCardDetails(card)">{{ card.title }}</button>
+                        <button (click)="toggleCardOptions(i, j)">⋮</button>
+                        <div *ngIf="card.showOptions" class="card-options">
+                            <button (click)="modifyTitleCard(card)">Rename</button>
+                            <button (click)="duplicateCard(i, j)">Duplicate</button>
+                            <button (click)="deleteCard(i, j)">Delete</button>
+                            <select [(ngModel)]="card.status" class="status-select">
+                                <option value="pending">Pending</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+
                 <button class="add-card-btn" (click)="toggleCardForm(i)">+ Add a card</button>
                 <div *ngIf="list.cardFormVisible" class="card-form">
                     <input [(ngModel)]="list.newCard" placeholder="Card content">
@@ -58,13 +72,7 @@
         <div *ngIf="selectedCard" class="card-details">
             <h3>Edit Card</h3>
             <form (ngSubmit)="updateCard()">
-                <input [(ngModel)]="selectedCard.title" placeholder="Card Title" required>
                 <textarea [(ngModel)]="selectedCard.description" placeholder="Card Description"></textarea>
-                <select [(ngModel)]="selectedCard.status">
-                    <option value="pending">Pending</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                </select>
                 <button type="submit">Update Card</button>
             </form>
             <button (click)="closeCardDetails()">Close</button>
@@ -72,15 +80,8 @@
     </main>
 
     <div class="menu-button" (click)="toggleMenu()">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-    </div>
-    
-    <div class="dropdown-menu" *ngIf="isMenuOpen">
-        <h3>Menu</h3>
-        <button routerLink="/profile" routerLinkActive="active">Profile</button>
-        <button>Logout</button>
+        <span *ngIf="!isMenuOpen">Menu</span>
+        <span *ngIf="isMenuOpen">Close</span>
     </div>
 </div>
 </body>

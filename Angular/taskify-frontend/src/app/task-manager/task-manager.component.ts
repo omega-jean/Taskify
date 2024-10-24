@@ -3,8 +3,15 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
+interface Card {
+  id: number;
+  title: string;
+  description: string;
+  status: string;
+  showOptions?: boolean;
+}
 
 @Component({
   selector: 'app-task-manager',
@@ -25,13 +32,13 @@ export class TaskManagerComponent {
   openMenuIndex: number | null = null;
   addListFormVisible = false;
   addListForm: FormGroup;
-  taskLists: { title: string; description: string; cards: string[]; newCard: string; cardFormVisible: boolean }[] = [];
-  draggingIndex: number | null = null;
+
+  taskLists: { id: number; title: string; cards: Card[]; newCard: string; cardFormVisible: boolean }[] = [];
+  selectedCard: Card | null = null;
 
   constructor(private formBuilder: FormBuilder) {
     this.addListForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      description: ['']
+      title: ['', Validators.required]
     });
   }
 
@@ -45,8 +52,14 @@ export class TaskManagerComponent {
 
   onSubmit() {
     if (this.addListForm.valid) {
-      const newTask = { ...this.addListForm.value, cards: [], newCard: '', cardFormVisible: false };
-      this.taskLists.push(newTask);
+      const newList = {
+        id: Date.now(),
+        title: this.addListForm.value.title,
+        cards: [],
+        newCard: '',
+        cardFormVisible: false
+      };
+      this.taskLists.push(newList);
       this.addListForm.reset();
       this.addListFormVisible = false;
     }
@@ -59,9 +72,72 @@ export class TaskManagerComponent {
   addCard(listIndex: number) {
     const selectedList = this.taskLists[listIndex];
     if (selectedList.newCard.trim()) {
-      selectedList.cards.push(selectedList.newCard);
+      const newCard: Card = {
+        id: Date.now(),
+        title: selectedList.newCard,
+        description: '',
+        status: 'pending',
+        showOptions: false
+      };
+      selectedList.cards.push(newCard);
       selectedList.newCard = '';
       selectedList.cardFormVisible = false;
+    }
+  }
+
+  toggleCardOptions(listIndex: number, cardIndex: number): void {
+    const card = this.taskLists[listIndex].cards[cardIndex];
+    card.showOptions = !card.showOptions;
+  }
+
+  showCardDetails(card: Card) {
+    this.selectedCard = { ...card };
+  }
+
+  closeCardDetails() {
+    this.selectedCard = null;
+  }
+
+  updateCard() {
+    if (this.selectedCard) {
+      for (const list of this.taskLists) {
+        const cardIndex = list.cards.findIndex(c => c.id === this.selectedCard!.id);
+        if (cardIndex !== -1) {
+          list.cards[cardIndex] = { ...this.selectedCard };
+          break;
+        }
+      }
+      this.closeCardDetails();
+    }
+  }
+
+  modifyTitleCard(card: Card): void {
+    const newTitle = prompt('Enter a new title for the card:', card.title);
+    if (newTitle !== null && newTitle.trim() !== '') {
+      const listIndex = this.taskLists.findIndex(list => list.cards.includes(card));
+      if (listIndex !== -1) {
+        const cardIndex = this.taskLists[listIndex].cards.findIndex(c => c.id === card.id);
+        if (cardIndex !== -1) {
+          this.taskLists[listIndex].cards[cardIndex].title = newTitle;
+        }
+      }
+    }
+  }
+
+  duplicateCard(listIndex: number, cardIndex: number): void {
+    const card = this.taskLists[listIndex].cards[cardIndex];
+    const newCard = {
+      ...card,
+      id: Date.now(),
+      title: card.title + ' (Copy)'
+    };
+    this.taskLists[listIndex].cards.push(newCard);
+  }
+
+  deleteCard(listIndex: number, cardIndex: number): void {
+    const confirmDelete = confirm('Are you sure you want to remove this card?');
+    if (confirmDelete) {
+      this.taskLists[listIndex].cards.splice(cardIndex, 1);
     }
   }
 
@@ -75,30 +151,21 @@ export class TaskManagerComponent {
   duplicateList(list: any): void {
     const newList = {
       ...list,
+      id: Date.now(),
       title: list.title + ' (Copy)',
-      cards: [...list.cards],
-      cardFormVisible: false
+      cards: list.cards.map((card: Card) => ({ ...card, id: Date.now() }))
     };
     this.taskLists.push(newList);
   }
 
   deleteList(index: number): void {
-    const confirmDelete = confirm('Are you sure you want to delete this list?');
+    const confirmDelete = confirm('Are you sure you want to remove this list?');
     if (confirmDelete) {
       this.taskLists.splice(index, 1);
     }
   }
 
-  drop(event: CdkDragDrop<{ title: string; cards: string[]; newCard: string; cardFormVisible: boolean }[]>) {
+  drop(event: CdkDragDrop<any[]>) {
     moveItemInArray(this.taskLists, event.previousIndex, event.currentIndex);
-    this.draggingIndex = null;
-  }
-
-  dragStarted(index: number) {
-    this.draggingIndex = index;
-  }
-
-  dragEnded() {
-    this.draggingIndex = null;
   }
 }
