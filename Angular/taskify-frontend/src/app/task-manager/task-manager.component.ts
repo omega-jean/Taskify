@@ -85,6 +85,20 @@ export class TaskManagerComponent {
     }
   }
 
+  addTask(listIndex: number) {
+    const newTaskTitle = prompt('Enter the title for the new task:');
+    if (newTaskTitle !== null && newTaskTitle.trim() !== '') {
+      const newTask: Card = {
+        id: Date.now(),
+        title: newTaskTitle,
+        description: '',
+        status: 'pending',
+        showOptions: false
+      };
+      this.taskLists[listIndex].cards.push(newTask);
+    }
+  }
+
   toggleCardOptions(listIndex: number, cardIndex: number): void {
     const card = this.taskLists[listIndex].cards[cardIndex];
     card.showOptions = !card.showOptions;

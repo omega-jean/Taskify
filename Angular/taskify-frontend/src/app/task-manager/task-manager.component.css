@@ -230,3 +230,34 @@ header {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+.dropdown-menu {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+.dropdown-menu h3 {
+    margin: 0 0 10px;
+}
+
+.dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #00003e;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+    background-color: #00008a;
+}
