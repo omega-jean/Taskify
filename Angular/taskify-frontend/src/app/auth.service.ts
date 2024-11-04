@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:5000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   register(email: string, password: string, confirmPassword: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, {
@@ -27,6 +28,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    this.router.navigate(['/home']);
   }
 
   isAuthenticated(): boolean {

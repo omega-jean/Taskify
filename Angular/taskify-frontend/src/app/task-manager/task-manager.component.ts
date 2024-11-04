@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { AuthService } from '../auth.service';
 
 interface Card {
   id: number;
@@ -36,10 +37,14 @@ export class TaskManagerComponent {
   taskLists: { id: number; title: string; cards: Card[]; newCard: string; cardFormVisible: boolean }[] = [];
   selectedCard: Card | null = null;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
     this.addListForm = this.formBuilder.group({
       title: ['', Validators.required]
     });
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 
   toggleMenu() {
