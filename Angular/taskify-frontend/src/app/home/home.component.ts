@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -17,7 +17,7 @@ import { AuthService } from '../auth.service';
 export class HomeComponent {
   isMenuOpen = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -25,5 +25,17 @@ export class HomeComponent {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  onAccessBoards(): void {
+    if (this.isAuthenticated()) {
+      this.router.navigate(['/your-board']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

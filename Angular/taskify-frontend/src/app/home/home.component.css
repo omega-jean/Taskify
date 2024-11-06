@@ -38,6 +38,7 @@ nav {
     padding: 10px 30px;
     background-color: #00003e;
     color: white;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
 }
@@ -138,6 +139,7 @@ p {
     margin-bottom: 5px;
     background-color: #00003e;
     color: white;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
 }
