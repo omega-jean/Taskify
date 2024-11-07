@@ -25,6 +25,8 @@ class Task(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(250), nullable=False)
     status = db.Column(db.String(50), default="pending")
+    board_id = db.Column(db.Integer, ForeignKey('board.id'), nullable=True)
+    board = db.relationship('Board', backref=db.backref('tasks', lazy=True))
 
 class Board(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -124,11 +126,16 @@ def add_task():
     data = request.json
     title = data.get('title')
     description = data.get('description')
+    board_id = data.get('board_id')
 
     if not title or not description:
         return jsonify({"error": "Title and description are required"}), 400
+    
+    board = Board.query.get(board_id)
+    if board is None:
+        return jsonify({"error": "Board not found"}), 404
 
-    new_task = Task(title=title, description=description)
+    new_task = Task(title=title, description=description, board_id=board_id)
     db.session.add(new_task)
     db.session.commit()
     return jsonify({"id": new_task.id, "title": new_task.title, "description": new_task.description, "status": new_task.status}), 201
@@ -240,6 +247,18 @@ def update_board(id):
         db.session.commit()
         return jsonify({"id": board.id, "name": board.name}), 200
     return jsonify({"error": "Board not found"}), 404
+
+@app.route('/api/your-board/<int:board_id>/task-manager', methods=['GET'])
+def get_tasks_by_board(board_id):
+    if not is_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    board = Board.query.get(board_id)
+    if board is None:
+        return jsonify({"error": "Board not found"}), 404
+
+    tasks = Task.query.filter_by(board_id=board_id).all()
+    return jsonify([{"id": task.id, "title": task.title, "description": task.description, "status": task.status} for task in tasks]), 200
 
 
 if __name__ == '__main__':
