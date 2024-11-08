@@ -7,49 +7,64 @@
     <title>Taskify - Register</title>
 </head>
 <body>
+    <!-- Header with logo and navigation links -->
     <header>
         <div class="logo-container">
+            <!-- Logo image -->
             <img src="https://raw.githubusercontent.com/omega-jean/Taskify/refs/heads/main/Angular/taskify-frontend/public/assets/logo-taskify.png" alt="logo" class="logo">
             <h1 class="title">Taskify</h1>
         </div>
+        <!-- Navigation buttons for home and login -->
         <nav>
             <button class="nav-button" routerLink="" routerLinkActive="active">Home</button>
             <button class="access-button" routerLink="/login" routerLinkActive="active">Login</button>
         </nav>
     </header>
     
+    <!-- Main registration form area -->
     <main>
         <div class="register-container">
             <h2>Register</h2>
+            <!-- Registration form with email, password, and confirm password fields -->
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <!-- Email input field -->
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" formControlName="email" required>
+                    <!-- Error message for invalid email format -->
                     <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
                         <small class="error">Invalid email</small>
                     </div>
                 </div>
+                <!-- Password input field -->
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" id="password" formControlName="password" required>
+                    <!-- Error message for password length requirement -->
                     <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
                         <small class="error">Password must be at least 6 characters long</small>
                     </div>
                 </div>
+                <!-- Confirm password input field -->
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password:</label>
                     <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
+                    <!-- Error message for password match requirement -->
                     <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
                         <small class="error">Passwords do not match</small>
                     </div>
                 </div>
+                <!-- Submit button, disabled if form is invalid -->
                 <button type="submit" class="register-button" [disabled]="registerForm.invalid">Register</button>
             </form>
+            <!-- Error message if there is a submission error -->
             <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+            <!-- Link to login page for existing users -->
             <p>Already have an account? <a routerLink="/login" routerLinkActive="active">Login here</a></p>
         </div>
     </main>
 
+    <!-- Menu button for additional options (e.g., navigation) -->
     <div class="menu-button">
         <div class="line"></div>
         <div class="line"></div>

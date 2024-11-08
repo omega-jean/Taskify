@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic meta tags for character set and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the CSS file for styling the task manager component -->
     <link rel="stylesheet" type="text/css" href="task-manager.component.css">
     <title>Taskify</title>
 </head>
 <body>
 <div class="task-manager">
+    <!-- Header section for logo and navigation buttons -->
     <header>
         <div class="logo">
             <img src="https://raw.githubusercontent.com/omega-jean/Taskify/refs/heads/main/Angular/taskify-frontend/public/assets/logo-taskify.png" alt="Taskify Logo" />
             <span>Taskify</span>
         </div>
         <div class="header-buttons">
+            <!-- Button to navigate to the user's board, using Angular router directives -->
             <button class="create-btn" routerLink="/your-board" routerLinkActive="active">Your boards</button>
+            <!-- Button for calendar feature, to be implemented -->
             <button class="calendar-btn">Calendar</button>
         </div>
     </header>
 
     <main>
+        <!-- Section for adding new task lists -->
         <div class="add-list">
             <div class="add-list-container">
+                <!-- Button to toggle visibility of the add-list form -->
                 <button class="add-list-btn" (click)="addListFormVisible = !addListFormVisible">+ Add a list</button>
+                <!-- Form to add a new list, displayed when addListFormVisible is true -->
                 <div class="add-list-form" *ngIf="addListFormVisible">
                     <form [formGroup]="addListForm" (ngSubmit)="onSubmit()">
                         <input formControlName="title" placeholder="Task Title" required>
@@ -32,26 +40,34 @@
             </div>
         </div>
 
+        <!-- Container for displaying task lists, supports drag-and-drop for sorting lists -->
         <div class="lists" id="listsContainer" cdkDropList (cdkDropListDropped)="drop($event)">
+            <!-- Loop through task lists and display each one with its title and actions -->
             <div *ngFor="let list of taskLists; let i = index" class="task-list" cdkDrag>
                 <div class="task-list-header">
                     <h3>{{ list.title }}</h3>
+                    <!-- Button to toggle options for each list, like modifying or deleting it -->
                     <button class="options-btn" (click)="toggleListMenu(i)">...</button>
                 </div>
+                <!-- List options menu, shown when openMenuIndex matches the current index -->
                 <div class="list-menu" *ngIf="openMenuIndex === i">
                     <button (click)="modifyTitle(list)">Modify Title</button>
                     <button (click)="duplicateList(list)">Duplicate</button>
                     <button (click)="deleteList(i)">Delete</button>
                 </div>
 
+                <!-- Loop through cards within each list, displaying each card's title and options -->
                 <div *ngFor="let card of list.cards; let j = index" class="card">
                     <div class="card-content">
+                        <!-- Button to view card details and options to rename, duplicate, delete -->
                         <button (click)="showCardDetails(card)">{{ card.title }}</button>
                         <button (click)="toggleCardOptions(i, j)">⋮</button>
+                        <!-- Card options menu, visible when card.showOptions is true -->
                         <div *ngIf="card.showOptions" class="card-options">
                             <button (click)="modifyTitleCard(card)">Rename</button>
                             <button (click)="duplicateCard(i, j)">Duplicate</button>
                             <button (click)="deleteCard(i, j)">Delete</button>
+                            <!-- Dropdown to set the card's status (e.g., Pending, In Progress, Completed) -->
                             <select [(ngModel)]="card.status" class="status-select">
                                 <option value="pending">Pending</option>
                                 <option value="in-progress">In Progress</option>
@@ -61,7 +77,9 @@
                     </div>
                 </div>
 
+                <!-- Button to add a new card to the current list -->
                 <button class="add-card-btn" (click)="toggleCardForm(i)">+ Add a card</button>
+                <!-- Form for adding a new card, shown when list.cardFormVisible is true -->
                 <div *ngIf="list.cardFormVisible" class="card-form">
                     <input [(ngModel)]="list.newCard" placeholder="Card content">
                     <button (click)="addCard(i)">Add Card</button>
@@ -69,6 +87,7 @@
             </div>
         </div>
 
+        <!-- Section for editing card details, shown when a card is selected for editing -->
         <div *ngIf="selectedCard" class="card-details">
             <h3>Edit Card</h3>
             <form (ngSubmit)="updateCard()">
@@ -79,14 +98,17 @@
         </div>
     </main>
 
+    <!-- Floating menu button at the bottom-right corner -->
     <div class="menu-button" (click)="toggleMenu()">
         <div class="line"></div>
         <div class="line"></div>
         <div class="line"></div>
     </div>
 
+    <!-- Dropdown menu, displayed when isMenuOpen is true, contains navigation options -->
     <div class="dropdown-menu" *ngIf="isMenuOpen">
         <h3>Menu</h3>
+        <!-- Link to user profile and logout button -->
         <button routerLink="/profile" routerLinkActive="active">Profile</button>
         <button (click)="onLogout()">Logout</button>
     </div>

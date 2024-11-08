@@ -18,6 +18,9 @@ export class ProfileComponent {
 
   constructor(private authService: AuthService) {}
 
+  /**
+   * Calls the logout method from AuthService to log the user out
+   */
   onLogout() {
     this.authService.logout();
   }

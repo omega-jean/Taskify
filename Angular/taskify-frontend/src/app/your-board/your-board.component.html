@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta and link tags for page setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="your-board.component.css">
     <title>Taskify - Your Boards</title>
 </head>
 <body>
+    <!-- Header section with logo and navigation -->
     <header>
         <div class="logo-container">
             <img src="https://raw.githubusercontent.com/omega-jean/Taskify/refs/heads/main/Angular/taskify-frontend/public/assets/logo-taskify.png" alt="logo" class="logo">
@@ -17,16 +19,21 @@
         </nav>
     </header>
     
+    <!-- Main content section where boards are displayed -->
     <main>
         <div class="your-boards-container">
+            <!-- Heading for the boards section -->
             <h2>Your Boards</h2>
+            <!-- Button to toggle the form for creating a new board -->
             <button class="add-list-btn" (click)="toggleAddBoardForm()">+ Create Board</button>
             
+            <!-- Add board form that shows when triggered -->
             <div *ngIf="showAddBoardForm" id="addBoardForm">
                 <input type="text" [(ngModel)]="newBoardName" placeholder="Enter board name" />
                 <button (click)="addBoard()">Create Board</button>
             </div>
 
+            <!-- List of existing boards, each clickable to navigate -->
             <div class="board-list">
                 <div *ngFor="let board of boards" class="board-item" (click)="navigateToTaskManager(board.name)">
                     <p>{{ board.name }}</p>

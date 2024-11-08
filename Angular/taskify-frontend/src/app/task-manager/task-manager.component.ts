@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AuthService } from '../auth.service';
 
+// Card interface to structure task card data
 interface Card {
   id: number;
   title: string;
@@ -29,6 +30,7 @@ interface Card {
   styleUrls: ['./task-manager.component.css']
 })
 export class TaskManagerComponent {
+  // UI State variables
   isMenuOpen = false;
   openMenuIndex: number | null = null;
   addListFormVisible = false;
@@ -38,23 +40,28 @@ export class TaskManagerComponent {
   selectedCard: Card | null = null;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+    // Initialize the add list form
     this.addListForm = this.formBuilder.group({
       title: ['', Validators.required]
     });
   }
 
+  // Handle logout
   onLogout() {
     this.authService.logout();
   }
 
+  // Toggle sidebar menu
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  // Toggle task list menu
   toggleListMenu(index: number) {
     this.openMenuIndex = this.openMenuIndex === index ? null : index;
   }
 
+  // Submit new list form
   onSubmit() {
     if (this.addListForm.valid) {
       const newList = {
@@ -70,10 +77,12 @@ export class TaskManagerComponent {
     }
   }
 
+  // Toggle card form visibility
   toggleCardForm(listIndex: number) {
     this.taskLists[listIndex].cardFormVisible = !this.taskLists[listIndex].cardFormVisible;
   }
 
+  // Add new card to list
   addCard(listIndex: number) {
     const selectedList = this.taskLists[listIndex];
     if (selectedList.newCard.trim()) {
@@ -90,9 +99,10 @@ export class TaskManagerComponent {
     }
   }
 
+  // Add task via prompt
   addTask(listIndex: number) {
     const newTaskTitle = prompt('Enter the title for the new task:');
-    if (newTaskTitle !== null && newTaskTitle.trim() !== '') {
+    if (newTaskTitle && newTaskTitle.trim()) {
       const newTask: Card = {
         id: Date.now(),
         title: newTaskTitle,
@@ -104,19 +114,23 @@ export class TaskManagerComponent {
     }
   }
 
+  // Toggle card options
   toggleCardOptions(listIndex: number, cardIndex: number): void {
     const card = this.taskLists[listIndex].cards[cardIndex];
     card.showOptions = !card.showOptions;
   }
 
+  // Show card details
   showCardDetails(card: Card) {
     this.selectedCard = { ...card };
   }
 
+  // Close card details view
   closeCardDetails() {
     this.selectedCard = null;
   }
 
+  // Update card data
   updateCard() {
     if (this.selectedCard) {
       for (const list of this.taskLists) {
@@ -130,9 +144,10 @@ export class TaskManagerComponent {
     }
   }
 
+  // Modify card title
   modifyTitleCard(card: Card): void {
     const newTitle = prompt('Enter a new title for the card:', card.title);
-    if (newTitle !== null && newTitle.trim() !== '') {
+    if (newTitle && newTitle.trim()) {
       const listIndex = this.taskLists.findIndex(list => list.cards.includes(card));
       if (listIndex !== -1) {
         const cardIndex = this.taskLists[listIndex].cards.findIndex(c => c.id === card.id);
@@ -143,6 +158,7 @@ export class TaskManagerComponent {
     }
   }
 
+  // Duplicate a card
   duplicateCard(listIndex: number, cardIndex: number): void {
     const card = this.taskLists[listIndex].cards[cardIndex];
     const newCard = {
@@ -153,6 +169,7 @@ export class TaskManagerComponent {
     this.taskLists[listIndex].cards.push(newCard);
   }
 
+  // Delete a card
   deleteCard(listIndex: number, cardIndex: number): void {
     const confirmDelete = confirm('Are you sure you want to remove this card?');
     if (confirmDelete) {
@@ -160,13 +177,15 @@ export class TaskManagerComponent {
     }
   }
 
+  // Modify task list title
   modifyTitle(list: any): void {
     const newTitle = prompt('Enter a new title for the list:', list.title);
-    if (newTitle !== null && newTitle.trim() !== '') {
+    if (newTitle && newTitle.trim()) {
       list.title = newTitle;
     }
   }
 
+  // Duplicate a task list
   duplicateList(list: any): void {
     const newList = {
       ...list,
@@ -177,6 +196,7 @@ export class TaskManagerComponent {
     this.taskLists.push(newList);
   }
 
+  // Delete a task list
   deleteList(index: number): void {
     const confirmDelete = confirm('Are you sure you want to remove this list?');
     if (confirmDelete) {
@@ -184,6 +204,7 @@ export class TaskManagerComponent {
     }
   }
 
+  // Handle drag and drop
   drop(event: CdkDragDrop<any[]>) {
     moveItemInArray(this.taskLists, event.previousIndex, event.currentIndex);
   }

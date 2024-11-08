@@ -1,3 +1,4 @@
+/* Global styles for the page */
 body {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
@@ -5,6 +6,7 @@ body {
   padding: 0;
 }
 
+/* Header styling */
 header {
   display: flex;
   justify-content: space-between;
@@ -14,6 +16,7 @@ header {
   border-bottom: 1px solid #ddd;
 }
 
+/* Logo container */
 .logo-container {
   display: flex;
   align-items: center;
@@ -25,11 +28,13 @@ header {
   margin-right: 10px;
 }
 
+/* Main title */
 .title {
   font-size: 24px;
   color: #333;
 }
 
+/* Quick access button */
 .access-button {
   padding: 10px 15px;
   background-color: #00003e;
@@ -42,6 +47,7 @@ header {
   background-color: #00008a;
 }
 
+/* Navigation button */
 .nav-button {
   padding: 10px 15px;
   background-color: #007bff;
@@ -55,13 +61,15 @@ header {
   background-color: #0056b3;
 }
 
+/* Main content styling */
 main {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 60px); /* Calculated height to fit the space */
 }
 
+/* Registration container */
 .register-container {
   background-color: #fff;
   padding: 20px;
@@ -72,12 +80,14 @@ main {
   text-align: center;
 }
 
+/* Title for the registration form */
 h2 {
   font-size: 28px;
   color: #333;
   margin-bottom: 20px;
 }
 
+/* Form group styling */
 .form-group {
   margin-bottom: 15px;
   text-align: left;
@@ -88,12 +98,14 @@ label {
   margin-bottom: 5px;
 }
 
+/* Input field styling */
 input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
 }
 
+/* Register button */
 .register-button {
   width: 100%;
   padding: 10px;
@@ -107,13 +119,14 @@ input {
   background-color: #218838;
 }
 
+/* Fixed menu button */
 .menu-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
 }
 
-
+/* Error message styling */
 .error {
   color: red;
   font-size: 0.8em;

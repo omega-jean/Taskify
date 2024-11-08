@@ -1,3 +1,4 @@
+/* Container for the main task manager area */
 .task-manager {
     display: flex;
     flex-direction: column;
@@ -7,6 +8,7 @@
     min-height: 100vh;
 }
 
+/* Styling for the header with a background color and shadow */
 header {
     width: 100%;
     display: flex;
@@ -18,22 +20,26 @@ header {
     color: white;
 }
 
+/* Logo area inside the header */
 .logo {
     display: flex;
     align-items: center;
 }
 
+/* Styling for the logo image */
 .logo img {
     width: 40px;
     height: auto;
     margin-right: 10px;
 }
 
+/* Container for header buttons */
 .header-buttons {
     display: flex;
     align-items: center;
 }
 
+/* Styling for the 'Create' and 'Calendar' buttons */
 .create-btn,
 .calendar-btn {
     background-color: #4CAF50;
@@ -46,16 +52,19 @@ header {
     transition: background-color 0.3s ease;
 }
 
+/* Hover effect for the header buttons */
 .create-btn:hover,
 .calendar-btn:hover {
     background-color: #45a049;
 }
 
+/* Container for adding new task lists */
 .add-list {
     margin-top: 40px;
     text-align: center;
 }
 
+/* Container layout for add-list buttons */
 .add-list-container {
     display: flex;
     justify-content: center;
@@ -63,6 +72,7 @@ header {
     margin-top: 20px;
 }
 
+/* Styling for the 'Add List' button */
 .add-list-btn {
     padding: 15px 30px;
     font-size: 18px;
@@ -74,10 +84,12 @@ header {
     transition: background-color 0.3s ease;
 }
 
+/* Hover effect for the 'Add List' button */
 .add-list-btn:hover {
     background-color: #f0f0f0;
 }
 
+/* Form styling for adding a new task list */
 .add-list-form {
     padding: 15px 30px;
     font-size: 18px;
@@ -90,6 +102,7 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Floating menu button positioned at the bottom-right corner */
 .menu-button {
     position: fixed;
     bottom: 20px;
@@ -104,6 +117,7 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* Styling for lines inside the floating menu button */
 .line {
     width: 25px;
     height: 4px;
@@ -111,6 +125,7 @@ header {
     margin: 2px 0;
 }
 
+/* Dropdown menu for additional options */
 .dropdown-menu {
     position: fixed;
     bottom: 60px;
@@ -124,12 +139,14 @@ header {
     z-index: 10;
 }
 
+/* Header styling inside the dropdown menu */
 .dropdown-menu h3 {
     margin: 0 0 10px;
     font-size: 18px;
     color: #00003e;
 }
 
+/* Button styling inside the dropdown menu */
 .dropdown-menu button {
     display: block;
     width: 100%;
@@ -143,10 +160,12 @@ header {
     transition: background-color 0.3s ease;
 }
 
+/* Hover effect for dropdown menu buttons */
 .dropdown-menu button:hover {
     background-color: #3f51b5;
 }
 
+/* Container for task lists with horizontal scrolling */
 .lists {
     display: flex;
     justify-content: flex-start;
@@ -156,6 +175,7 @@ header {
     margin-top: 20px;
 }
 
+/* Styling for each task list */
 .task-list {
     position: relative;
     border: 2px solid black;
@@ -166,6 +186,7 @@ header {
     border-radius: 10px;
 }
 
+/* Header styling for each task list */
 .task-list-header {
     display: flex;
     justify-content: space-between;
@@ -173,16 +194,19 @@ header {
     margin-bottom: 10px;
 }
 
+/* Styling for task list titles */
 .task-list h3 {
     margin: 0 0 10px 0;
     font-size: 16px;
     font-weight: bold;
 }
 
+/* Styling for text within task lists */
 .task-list p {
     margin: 0;
 }
 
+/* Button to add new cards within each task list */
 .add-card-btn {
     margin-top: 10px;
     padding: 8px 12px;
@@ -194,14 +218,17 @@ header {
     transition: background-color 0.3s ease;
 }
 
+/* Hover effect for the 'Add Card' button */
 .add-card-btn:hover {
     background-color: #0056b3;
 }
 
+/* Form layout for adding new cards to task lists */
 .card-form {
     margin-top: 10px;
 }
 
+/* Individual card styling within task lists */
 .card {
     border: 1px solid #ddd;
     padding: 8px;
@@ -211,6 +238,7 @@ header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Styling for the options button within task lists */
 .options-btn {
     background: none;
     border: none;
@@ -220,10 +248,12 @@ header {
     margin-left: auto;
 }
 
+/* Hover effect for the options button */
 .options-btn:hover {
     color: #555;
 }
 
+/* Menu styling within task lists */
 .list-menu {
     background-color: #f9f9f9;
     padding: 10px;
@@ -231,6 +261,7 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Dropdown menu duplicate styling for any additional menus */
 .dropdown-menu {
     position: fixed;
     bottom: 60px;
@@ -243,10 +274,12 @@ header {
     text-align: center;
 }
 
+/* Header styling inside the dropdown menu */
 .dropdown-menu h3 {
     margin: 0 0 10px;
 }
 
+/* Button styling within dropdown menu */
 .dropdown-menu button {
     display: block;
     width: 100%;
@@ -258,6 +291,7 @@ header {
     cursor: pointer;
 }
 
+/* Hover effect for dropdown menu buttons */
 .dropdown-menu button:hover {
     background-color: #00008a;
 }

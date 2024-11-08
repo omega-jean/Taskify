@@ -1,4 +1,4 @@
-/* CSS de base */
+/* Basic CSS for the body and global elements */
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
@@ -6,6 +6,7 @@ body {
     padding: 0;
 }
 
+/* Header: structure of the header with flexbox to align content */
 header {
     display: flex;
     justify-content: space-between;
@@ -15,6 +16,7 @@ header {
     border-bottom: 1px solid #ddd;
 }
 
+/* Logo: styles for the logo container and logo itself */
 .logo-container {
     display: flex;
     align-items: center;
@@ -26,11 +28,13 @@ header {
     margin-right: 10px;
 }
 
+/* Title in the header */
 .title {
     font-size: 24px;
     color: #333;
 }
 
+/* Access buttons (login/signup) with hover effects */
 .access-button {
     padding: 10px 15px;
     background-color: #00003e;
@@ -43,9 +47,10 @@ header {
     background-color: #00008a;
 }
 
+/* Navigation buttons with hover effects */
 .nav-button {
     padding: 10px 15px;
-    background-color: #007bff; /* Couleur bleu */
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
@@ -53,9 +58,10 @@ header {
 }
 
 .nav-button:hover {
-    background-color: #0056b3; /* Couleur bleu foncé au survol */
+    background-color: #0056b3;
 }
 
+/* Main container (center of the login page) */
 main {
     display: flex;
     align-items: center;
@@ -63,6 +69,7 @@ main {
     height: calc(100vh - 60px);
 }
 
+/* Styles for the login page container */
 .login-container {
     background-color: #fff;
     padding: 20px;
@@ -73,12 +80,14 @@ main {
     text-align: center;
 }
 
+/* Title of the login page */
 h2 {
     font-size: 28px;
     color: #333;
     margin-bottom: 20px;
 }
 
+/* Form groups: margins and alignment */
 .form-group {
     margin-bottom: 15px;
     text-align: left;
@@ -95,6 +104,7 @@ input {
     border: 1px solid #ddd;
 }
 
+/* Login button with hover effect */
 .login-button {
     width: 100%;
     padding: 10px;
@@ -108,6 +118,7 @@ input {
     background-color: #218838;
 }
 
+/* "Forgot password" link with hover effect */
 .forgot-password {
     display: block;
     margin: 10px 0;
@@ -119,6 +130,7 @@ input {
     text-decoration: underline;
 }
 
+/* Divider in the form (line with text in the center) */
 .divider {
     margin: 20px 0;
     position: relative;
@@ -149,6 +161,7 @@ input {
     right: 0;
 }
 
+/* Google login button with hover effect */
 .google-login {
     padding: 10px;
     background-color: #db4437;

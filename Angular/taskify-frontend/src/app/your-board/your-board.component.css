@@ -1,9 +1,11 @@
+/* Global styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
+/* Header styles */
 header {
     display: flex;
     justify-content: space-between;
@@ -12,21 +14,25 @@ header {
     padding: 20px;
 }
 
+/* Logo container */
 .logo-container {
     display: flex;
     align-items: center;
 }
 
+/* Logo image */
 .logo {
     width: 50px;
     margin-right: 10px;
 }
 
+/* Title style */
 .title {
     font-size: 1.5em;
     font-weight: bold;
 }
 
+/* Button styles */
 .nav-button, .access-button, .add-list-btn {
     background-color: #007bff;
     color: white;
@@ -38,10 +44,12 @@ header {
     transition: background-color 0.3s;
 }
 
+/* Button hover effect */
 .nav-button:hover, .access-button:hover, .add-list-btn:hover {
     background-color: #0056b3;
 }
 
+/* "Your Boards" section container */
 .your-boards-container {
     padding: 20px;
     background-color: #f8f9fa;
@@ -49,11 +57,13 @@ header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Heading style */
 h2 {
     font-size: 24px;
     color: #333;
 }
 
+/* Board form and input styles */
 #addBoardForm {
     margin-top: 10px;
     display: flex;
@@ -61,7 +71,7 @@ h2 {
 }
 
 input[type="text"] {
-    border: 1px solid #ced4da; 
+    border: 1px solid #ced4da;
     border-radius: 5px;
     padding: 10px;
     margin-right: 10px;
@@ -75,6 +85,7 @@ input[type="text"]:focus {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+/* Button styles for form submission */
 button {
     background-color: #28a745;
     color: white;
@@ -89,6 +100,7 @@ button:hover {
     background-color: #218838;
 }
 
+/* Board list styles */
 .board-list {
     margin-top: 20px;
 }

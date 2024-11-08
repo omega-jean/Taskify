@@ -1,41 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character set and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the external CSS file for styling -->
     <link rel="stylesheet" type="text/css" href="login.component.css">
+    <!-- Title of the page -->
     <title>Taskify - Login</title>
 </head>
 <body>
+    <!-- Header section with logo and navigation -->
     <header>
         <div class="logo-container">
+            <!-- Logo image and title for Taskify -->
             <img src="https://raw.githubusercontent.com/omega-jean/Taskify/refs/heads/main/Angular/taskify-frontend/public/assets/logo-taskify.png" alt="logo" class="logo">
             <h1 class="title">Taskify</h1>
         </div>
         <nav>
+            <!-- Navigation buttons for Home and Register pages -->
             <button class="nav-button" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</button>
             <button class="access-button" routerLink="/register" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Register</button>
         </nav>
     </header>
     
+    <!-- Main content area for the login form -->
     <main>
         <div class="login-container">
+            <!-- Heading for the login form -->
             <h2>Login</h2>
+            <!-- Login form with two input fields for email and password -->
             <form (ngSubmit)="onSubmit()">
                 <div class="form-group">
+                    <!-- Email input field -->
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" [(ngModel)]="email" required>
                 </div>
                 <div class="form-group">
+                    <!-- Password input field -->
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" [(ngModel)]="password" required>
                 </div>
+                <!-- Submit button for the login form -->
                 <button type="submit" class="login-button">Login</button>
             </form>
+            <!-- Link to the 'forgot password' page -->
             <a class="forgot-password" routerLink="/forgot-password" routerLinkActive="active">Forgot password?</a>
+            <!-- Divider with 'OR' text in the center -->
             <div class="divider">
                 <span>OR</span>
             </div>
+            <!-- Button for Google sign-in -->
             <button class="google-login">Sign In using your account with Google</button>
         </div>
     </main>

@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the external CSS file for styling -->
     <link rel="stylesheet" type="text/css" href="profile.component.css">
     <title>Taskify - Profile</title>
 </head>
 <body>
+    <!-- Header section with logo and navigation -->
     <header>
         <div class="logo-container">
             <img src="https://raw.githubusercontent.com/omega-jean/Taskify/refs/heads/main/Angular/taskify-frontend/public/assets/logo-taskify.png" alt="Taskify Logo" class="logo">
@@ -14,15 +16,19 @@
         </div>
         <h2 class="page-title">Profile</h2>
         <nav>
+            <!-- Navigation button linking to the boards page -->
             <button class="nav-button" routerLink="/your-board" routerLinkActive="active">Access your boards</button>
         </nav>
     </header>
 
+    <!-- Main section centered on profile actions -->
     <main>
         <div class="profile-container">
             <div class="action-box">
+                <!-- Profile button for navigating to the profile details -->
                 <button class="profile-button">Profile</button>
 
+                <!-- Action buttons for password change, account deletion, and logout -->
                 <div class="action-buttons">
                     <button class="change-password-button" routerLink="/modify-password" routerLinkActive="active">Change Password</button>
                     <button class="delete-account-button">Delete Account</button>
