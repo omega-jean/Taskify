@@ -1,42 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Basic meta tags for character set and viewport settings -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the CSS file for component styling -->
     <link rel="stylesheet" type="text/css" href="home.component.css">
     <title>Taskify</title>
 </head>
+
 <body>
+    <!-- Header section with logo, title, and navigation -->
     <header>
         <div class="logo-container">
             <img src="https://raw.githubusercontent.com/omega-jean/Taskify/refs/heads/main/Angular/taskify-frontend/public/assets/logo-taskify.png" alt="logo" class="logo">
             <h1 class="title">Taskify</h1>
         </div>
+        <!-- Button for accessing boards, with a click event handler -->
         <nav>
             <button class="access-button" (click)="onAccessBoards()">Access your boards</button>
         </nav>
     </header>
+
+    <!-- Main content section with introductory text and sign-up button -->
     <main>
         <div class="content-container">
             <div class="text-content">
                 <h2>Taskify is a task manager</h2>
+                <!-- Sign-up button navigates to registration page -->
                 <button class="signup-button" routerLink="/register" routerLinkActive="active">Sign up for free</button>
-                <p>Simple, flexible and powerful. Boards, lists, and maps are enough to get a clear view of who's doing what and what tasks you still need to do.</p>
+                <p>Simple, flexible, and powerful. Boards, lists, and maps are enough to get a clear view of who's doing what and what tasks you still need to do.</p>
             </div>
+            <!-- Main image displayed next to text content -->
             <img src="https://raw.githubusercontent.com/omega-jean/Taskify/refs/heads/main/Angular/taskify-frontend/public/assets/logo-logo.png" alt="logo2" class="main-image">
         </div>
     </main>
 
+    <!-- Menu button for opening the dropdown menu with three horizontal lines -->
     <div class="menu-button" (click)="toggleMenu()">
         <div class="line"></div>
         <div class="line"></div>
         <div class="line"></div>
     </div>
 
+    <!-- Dropdown menu, shown when isMenuOpen is true -->
     <div class="dropdown-menu" *ngIf="isMenuOpen">
         <h3>Menu</h3>
+        <!-- Menu options: Profile and Logout, with respective actions -->
         <button routerLink="/profile" routerLinkActive="active">Profile</button>
         <button (click)="onLogout()">Logout</button>
     </div>
 </body>
+
 </html>

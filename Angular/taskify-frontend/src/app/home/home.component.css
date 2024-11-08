@@ -1,3 +1,4 @@
+/* Base styling for body: sets font, background color, and removes margin and padding */
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
@@ -5,6 +6,7 @@ body {
     padding: 0;
 }
 
+/* Header styling: horizontal layout, space between items, and bottom border */
 header {
     display: flex;
     justify-content: space-between;
@@ -14,26 +16,31 @@ header {
     border-bottom: 1px solid #ddd;
 }
 
+/* Logo container: centers logo image and title */
 .logo-container {
     display: flex;
     align-items: center;
 }
 
+/* Logo image: sets fixed width with auto height for aspect ratio */
 .logo {
     width: 50px;
     height: auto;
     margin-right: 10px;
 }
 
+/* Title styling inside header: font size and color */
 .title {
     font-size: 24px;
     color: #333;
 }
 
+/* Navigation styling: flex layout for horizontal menu */
 nav {
     display: flex;
 }
 
+/* Access button: padding, color, and rounded corners */
 .access-button {
     padding: 10px 30px;
     background-color: #00003e;
@@ -43,10 +50,12 @@ nav {
     cursor: pointer;
 }
 
+/* Hover effect for access button: darker background color */
 .access-button:hover {
     background-color: #00008a;
 }
 
+/* Main content area: centers content with padding */
 main {
     display: flex;
     align-items: center;
@@ -54,6 +63,7 @@ main {
     padding: 20px;
 }
 
+/* Content container: centered layout with max width and margin */
 .content-container {
     display: flex;
     align-items: center;
@@ -61,15 +71,18 @@ main {
     margin: 70px auto;
 }
 
+/* Text content section with right margin */
 .text-content {
     margin-right: 300px;
 }
 
+/* Headings: large font size and dark color */
 h2 {
     font-size: 36px;
     color: #333;
 }
 
+/* Signup button: font size, padding, background, and rounded corners */
 .signup-button {
     font-size: 20px;
     padding: 15px 150px;
@@ -81,15 +94,18 @@ h2 {
     margin: 20px 0;
 }
 
+/* Hover effect for signup button: darker green background */
 .signup-button:hover {
     background-color: #218838;
 }
 
+/* Main image styling: fixed width with auto height for aspect ratio */
 .main-image {
     width: 300px;
     height: auto;
 }
 
+/* Paragraph text styling: font size, color, and max width */
 p {
     font-size: 18px;
     color: #555;
@@ -97,6 +113,7 @@ p {
     margin: 10px auto;
 }
 
+/* Menu button: fixed position, background color, and layout for hamburger icon */
 .menu-button {
     position: fixed;
     bottom: 10px;
@@ -109,6 +126,7 @@ p {
     align-items: center;
 }
 
+/* Line element for hamburger icon */
 .line {
     width: 25px;
     height: 4px;
@@ -116,6 +134,7 @@ p {
     margin: 2px 0;
 }
 
+/* Dropdown menu styling: fixed position, white background, shadow, and padding */
 .dropdown-menu {
     position: fixed;
     bottom: 60px;
@@ -128,10 +147,12 @@ p {
     text-align: center;
 }
 
+/* Dropdown menu heading styling: bottom margin */
 .dropdown-menu h3 {
     margin: 0 0 10px;
 }
 
+/* Dropdown menu button: full width, padding, background, and rounded corners */
 .dropdown-menu button {
     display: block;
     width: 100%;
@@ -144,6 +165,7 @@ p {
     cursor: pointer;
 }
 
+/* Hover effect for dropdown buttons: darker background color */
 .dropdown-menu button:hover {
     background-color: #00008a;
 }
