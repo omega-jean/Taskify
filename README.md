@@ -1,57 +1,58 @@
-Taskify
-Taskify is a simple and intuitive task management application designed to help users organize, prioritize, and keep track of their daily tasks. It combines a Python Flask back-end API with an Angular front-end and a MySQL database for efficient task management.
+# Taskify
 
-Features
-Add, edit, and delete tasks.
-Secure authentication for user access.
-Technologies Used
+Taskify is a user-friendly task management application designed to help users organize, prioritize, and keep track of their daily tasks. The project combines a Python Flask back-end API with an Angular front-end and a MySQL database for efficient task management.
+
+## 🎯 Features
+Task Management: Easily add, edit, and delete tasks.
+Secure Authentication: Provides safe access control for each user.
+🛠️ Technologies Used
 Backend: Python, Flask
 Frontend: Angular
 Database: MySQL
-Architecture
-Taskify uses a layered architecture to separate responsibilities:
+## 🏗️ Architecture
+Taskify employs a layered architecture to separate responsibilities:
 
-Frontend: An Angular application handles the user interface and sends HTTP requests to the API.
-Backend: A Flask API receives and processes requests from the frontend, managing users, tasks, and authentication.
-Database: MySQL stores user and task data.
-Installation
+Frontend: An Angular application that manages the user interface and sends HTTP requests to the API.
+Backend: A Flask API that processes requests from the frontend, handling users, tasks, and authentication.
+Database: MySQL stores user and task data securely.
+## 🚀 Installation
 Prerequisites
-Python 3 and pip to run the Flask API.
-MySQL for the database.
+Python 3 and pip for running the Flask API.
+MySQL for database management.
 Steps
 Clone the repository:
 
 git clone https://github.com/omega-jean/Taskify
-cd taskify
+cd Taskify
 Backend Setup:
 
-Go to the backend folder:
+Navigate to the backend folder:
 cd api.py
 Install dependencies:
 pip install -r requirements.txt
-Set up your MySQL database.
+Configure your MySQL database.
 Create a .env file to store environment variables (e.g., MySQL connection details).
 Frontend Setup:
 
-Go to the frontend folder:
-cd /Angular/taskify-frontend/src/app
+Navigate to the frontend folder:
+cd Angular/taskify-frontend/src/app
 Install dependencies:
 npm install
-Usage
+## 💻 Usage
 Start the backend:
 
 python app.py
 Start the frontend:
 
 ng serve
-Access the application in your browser at http://localhost:4200.
+Open the application in your browser at http://localhost:4200.
 
-API Overview
+## 📋 API Overview
 Here is a summary of the main API routes:
 
 /api/tasks:
 
-GET: Retrieves the user's task list.
+GET: Retrieves the user’s task list.
 POST: Creates a new task.
 /api/tasks/{id}:
 
@@ -65,7 +66,6 @@ PUT: Updates user information.
 
 POST: Authenticates the user (login).
 DELETE: Logs the user out.
-Contributors
+## 👥 Contributors
 Jean-Alexandre Roger - Creator and Lead Developer
-License
-This project is licensed under the MIT License.
+
