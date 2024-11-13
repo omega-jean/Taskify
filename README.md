@@ -69,3 +69,7 @@ DELETE: Logs the user out.
 ## 👥 Contributors
 Jean-Alexandre Roger - Creator and Lead Developer
 
+## 🔗 Links
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jean-alexandre-roger/)
+[Landingpage](https://portfolio-taskify.netlify.app/)\
+[Blog of askify](https://www.linkedin.com/pulse/blog-taskify-jean-alexandre-roger-s4lkc/)
