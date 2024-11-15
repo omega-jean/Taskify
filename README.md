@@ -66,6 +66,36 @@ PUT: Updates user information.
 
 POST: Authenticates the user (login).
 DELETE: Logs the user out.
+
+## 🤝 Contribution
+
+Contributions are welcome! Follow the steps below to participate:
+
+1 Fork the repository.
+
+2 Create a branch for your feature or bug fix.
+```bash
+  git checkout -b feature/name of functionality
+```
+3 Make your changes and commit clearly and concisely.
+```bash
+  git commit -m "Added [feature/fix]"
+```
+4 Push your changes.
+```bash
+  git push origin feature/feature-name"
+```
+5 Open a Pull Request.
+
+## Related projects
+
+[Trello](https://trello.com/fr)\
+[Microsoft To Do](https://to-do.office.com/tasks/)
+
+## 📝 Licensing
+
+This project is licensed under MIT License.
+
 ## 👥 Contributors
 Jean-Alexandre Roger - Creator and Lead Developer
 
